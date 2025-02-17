@@ -4,10 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>حساب مدة الصوت</title>
-  <!-- استدعاء Bootstrap CSS من شبكة CDN -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- استدعاء Bootstrap CSS من CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
-    /* تنسيق بسيط لتحسين العرض */
     body {
       background-color: #f8f9fa;
     }
@@ -21,11 +20,12 @@
     <h1 class="text-center mb-4">حساب مدة الصوت</h1>
     <div class="row justify-content-center">
       <div class="col-md-8">
+        <!-- حقل النص لإدخال المستخدم -->
         <div class="form-group">
           <label for="inputText">النص:</label>
-          <textarea class="form-control" id="inputText" rows="10" placeholder="أدخل النص هنا..."></textarea>
+          <textarea class="form-control" id="inputText" rows="5" placeholder="أدخل النص هنا..."></textarea>
         </div>
-        <button id="calculateButton" class="btn btn-success btn-block">احسب المدة</button>
+        <!-- عرض النتيجة -->
         <div class="mt-3">
           <h4 id="result" class="text-center">النتيجة ستظهر هنا.</h4>
         </div>
@@ -33,25 +33,23 @@
     </div>
   </div>
   
-  <!-- استدعاء Bootstrap JS والاعتماديات (jQuery و Popper.js) من شبكة CDN -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
-  <!-- الكود الخاص بحساب مدة الصوت -->
+  <!-- كود جافاسكريبت لحساب مدة الصوت وتحديث الناتج فورياً -->
   <script>
-    // دالة لحساب مدة الصوت بناءً على عدد الكلمات
+    // دالة لحساب مدة الصوت بناءً على عدد الكلمات في النص
     function calculateAudioDuration(text, wordsPerMinute = 85) {
-      // إزالة الفراغات الزائدة وتقسيم النص إلى كلمات
+      // تقسيم النص إلى كلمات بعد إزالة الفراغات الزائدة
       let words = text.trim().split(/\s+/).filter(word => word.trim() !== "");
       let wordCount = words.length;
+      
+      // إذا لم يتم إدخال نص يظهر نتيجة فارغة
+      if (wordCount === 0) return "";
       
       // حساب إجمالي الثواني
       let totalSeconds = (wordCount / wordsPerMinute) * 60;
       let minutes = Math.floor(totalSeconds / 60);
       let seconds = (totalSeconds % 60).toFixed(1);
       
-      // صياغة النتيجة باللغة العربية
+      // صياغة الناتج باللغة العربية
       if (minutes === 0) {
         return seconds + " ثانية";
       } else {
@@ -59,18 +57,25 @@
       }
     }
     
-    // التعامل مع حدث النقر على زر "احسب المدة"
-    document.getElementById("calculateButton").addEventListener("click", function() {
-      let inputText = document.getElementById("inputText").value;
-      let resultDiv = document.getElementById("result");
-      
-      if (inputText.trim() === "") {
+    // الحصول على عناصر HTML
+    const inputText = document.getElementById("inputText");
+    const resultDiv = document.getElementById("result");
+    
+    // تحديث الناتج فوراً عند كتابة المستخدم
+    inputText.addEventListener("input", function() {
+      let text = inputText.value;
+      if (text.trim() === "") {
         resultDiv.textContent = "من فضلك أدخل نصاً للحساب.";
       } else {
-        let result = calculateAudioDuration(inputText);
+        let result = calculateAudioDuration(text);
         resultDiv.textContent = "مدة الصوت: " + result;
       }
     });
   </script>
+  
+  <!-- استدعاء Bootstrap JS والاعتماديات من CDN -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
