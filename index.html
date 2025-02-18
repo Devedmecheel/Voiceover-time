@@ -37,7 +37,7 @@
   <!-- كود جافاسكريبت لحساب مدة الصوت وتحديث الناتج فورياً -->
   <script>
     // دالة لحساب مدة الصوت بناءً على عدد الكلمات في النص
-    function calculateAudioDuration(text, wordsPerMinute = 85) {
+    function calculateAudioDuration(text, wordsPerMinute = 80) {
       // تقسيم النص إلى كلمات بعد إزالة الفراغات الزائدة
       let words = text.trim().split(/\s+/).filter(word => word.trim() !== "");
       let wordCount = words.length;
